@@ -24,3 +24,12 @@ COPY standard.json \
 # picks it up.
 RUN cp -r /var/www/localhost/htdocs/openemr/sites \
           /var/www/localhost/htdocs/openemr/sites-template
+# The stock image ships sites/docker-completed, the marker openemr.sh reads to
+# decide it is a follower and skip setup (line 230). Remove it so a fresh
+# container elects itself leader and configures the database.
+RUN rm -f /var/www/localhost/htdocs/openemr/sites/docker-completed \
+          /var/www/localhost/htdocs/openemr/sites/docker-leader \
+          /var/www/localhost/htdocs/openemr/sites/docker-initiated \
+          /var/www/localhost/htdocs/openemr/sites-template/docker-completed \
+          /var/www/localhost/htdocs/openemr/sites-template/docker-leader \
+          /var/www/localhost/htdocs/openemr/sites-template/docker-initiated
